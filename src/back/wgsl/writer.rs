@@ -1444,6 +1444,8 @@ impl<W: Write> Writer<W> {
                 enum Function {
                     Asincosh { is_sin: bool },
                     Atanh,
+                    FindLsb,
+                    FindMsb,
                     Regular(&'static str),
                 }
 
@@ -1507,6 +1509,8 @@ impl<W: Write> Writer<W> {
                     Mf::ReverseBits => Function::Regular("reverseBits"),
                     Mf::ExtractBits => Function::Regular("extractBits"),
                     Mf::InsertBits => Function::Regular("insertBits"),
+                    Mf::FindLsb => Function::FindLsb,
+                    Mf::FindMsb => Function::FindMsb,
                     // data packing
                     Mf::Pack4x8snorm => Function::Regular("pack4x8snorm"),
                     Mf::Pack4x8unorm => Function::Regular("pack4x8unorm"),
@@ -1543,6 +1547,16 @@ impl<W: Write> Writer<W> {
                         write!(self.out, ") / (1.0 - ")?;
                         self.write_expr(module, arg, func_ctx)?;
                         write!(self.out, "))")?;
+                    }
+                    Function::FindLsb => {
+                        write!(self.out, "((ctz(")?;
+                        self.write_expr(module, arg, func_ctx)?;
+                        write!(self.out, ") + 1) % 33) - 1")?;
+                    }
+                    Function::FindMsb => {
+                        write!(self.out, "((clz(")?;
+                        self.write_expr(module, arg, func_ctx)?;
+                        write!(self.out, ") + 1) % 33) - 1")?;
                     }
                     Function::Regular(fun_name) => {
                         write!(self.out, "{}(", fun_name)?;

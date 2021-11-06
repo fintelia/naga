@@ -70,6 +70,38 @@ fn main1() {
     u3 = extractBits(e207, u32(5), u32(10));
     let e216: vec4<u32> = u4;
     u4 = extractBits(e216, u32(5), u32(10));
+    let e223: i32 = i;
+    i = ((ctz(e223) + 1) % 33) - 1;
+    let e226: vec2<i32> = i2;
+    i2 = ((ctz(e226) + 1) % 33) - 1;
+    let e229: vec3<i32> = i3;
+    i3 = ((ctz(e229) + 1) % 33) - 1;
+    let e232: vec4<i32> = i4;
+    i4 = ((ctz(e232) + 1) % 33) - 1;
+    let e235: u32 = u;
+    i = ((ctz(e235) + 1) % 33) - 1;
+    let e238: vec2<u32> = u2;
+    i2 = ((ctz(e238) + 1) % 33) - 1;
+    let e241: vec3<u32> = u3;
+    i3 = ((ctz(e241) + 1) % 33) - 1;
+    let e244: vec4<u32> = u4;
+    i4 = ((ctz(e244) + 1) % 33) - 1;
+    let e247: i32 = i;
+    i = ((clz(e247) + 1) % 33) - 1;
+    let e250: vec2<i32> = i2;
+    i2 = ((clz(e250) + 1) % 33) - 1;
+    let e253: vec3<i32> = i3;
+    i3 = ((clz(e253) + 1) % 33) - 1;
+    let e256: vec4<i32> = i4;
+    i4 = ((clz(e256) + 1) % 33) - 1;
+    let e259: u32 = u;
+    i = ((clz(e259) + 1) % 33) - 1;
+    let e262: vec2<u32> = u2;
+    i2 = ((clz(e262) + 1) % 33) - 1;
+    let e265: vec3<u32> = u3;
+    i3 = ((clz(e265) + 1) % 33) - 1;
+    let e268: vec4<u32> = u4;
+    i4 = ((clz(e268) + 1) % 33) - 1;
     return;
 }
 
