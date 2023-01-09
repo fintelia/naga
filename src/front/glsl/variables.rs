@@ -446,7 +446,13 @@ impl Parser {
                         _ => Interpolation::Flat,
                     })
                 });
-                let sampling = qualifiers.sampling.take().map(|(s, _)| s);
+                let sampling = Some(
+                    qualifiers
+                        .sampling
+                        .take()
+                        .map(|(s, _)| s)
+                        .unwrap_or(crate::Sampling::Center),
+                );
 
                 let handle = self.module.global_variables.append(
                     GlobalVariable {
