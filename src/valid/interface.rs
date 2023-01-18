@@ -412,6 +412,36 @@ impl super::Validator {
                         return Err(GlobalVariableError::InvalidType(var.space));
                     }
                 };
+                let inner_ty = match &types[var.ty].inner {
+                    crate::TypeInner::BindingArray { base, .. } => &types[*base].inner,
+                    ty => ty,
+                };
+                match inner_ty {
+                    crate::TypeInner::Image {
+                        class:
+                            crate::ImageClass::Storage {
+                                format:
+                                    crate::StorageFormat::R16Unorm
+                                    | crate::StorageFormat::R16Snorm
+                                    | crate::StorageFormat::Rg16Unorm
+                                    | crate::StorageFormat::Rg16Snorm
+                                    | crate::StorageFormat::Rgba16Unorm
+                                    | crate::StorageFormat::Rgba16Snorm,
+                                ..
+                            },
+                        ..
+                    } => {
+                        if !self
+                            .capabilities
+                            .contains(Capabilities::STORAGE_TEXTURE_16BIT_NORM_FORMATS)
+                        {
+                            return Err(GlobalVariableError::UnsupportedCapability(
+                                Capabilities::STORAGE_TEXTURE_16BIT_NORM_FORMATS,
+                            ));
+                        }
+                    }
+                    _ => {}
+                }
                 (TypeFlags::empty(), true)
             }
             crate::AddressSpace::Private | crate::AddressSpace::WorkGroup => {
